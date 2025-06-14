@@ -124,7 +124,7 @@ VeeR-ISS is an Instruction Set Simulator for RISC-V. Follow these steps to clone
 
 ## 5\. Install and Build the RISC-V Toolchain
 
-The RISC-V GNU toolchain provides the necessary compilers, assemblers, and linkers to develop software for RISC-V architectures. The required packages for building the toolchain should have been installed in [Step 3](https://www.google.com/search?q=%233-set-up-libs).
+The RISC-V GNU toolchain provides the necessary compilers, assemblers, and linkers to develop software for RISC-V architectures. The required packages for building the toolchain should have been installed in [Step 3](#3-set-up-libraries).
 
 1.  **Clone the Toolchain Repository:**
 
@@ -191,7 +191,7 @@ Before using the `build.sh` script, it's essential to understand the required co
   * **`veer/link.ld`**: This is the linker script. It defines how different sections of your compiled code (like `.text`, `.data`, etc.) are mapped into memory. This script is crucial for the linker to correctly arrange your program's components.
   * **`veer/whisper.json`**: This file contains configuration settings for the `whisper` simulator. It dictates various simulation parameters, such as memory layout, initial register values, and other hardware-specific settings.
 
-For a detailed explanation of the required code structure for your RISC-V projects and how `link.ld` and `whisper.json` are used, please refer to the [Code Structure Explained](https://www.google.com/search?q=code_structure.md) file. Understanding these files is necessary before successfully using the build script.
+For a detailed explanation of the required code structure for your RISC-V projects and how `link.ld` and `whisper.json` are used, please refer to the [Code Structure Explained](code_structure.md) file. Understanding these files is necessary before successfully using the build script.
 
 ### `build.sh` Usage
 
