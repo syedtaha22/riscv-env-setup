@@ -140,7 +140,37 @@ The RISC-V GNU toolchain provides the necessary compilers, assemblers, and linke
     git submodule update --init --recursive
     ```
 
-    It's completely normal for this command to take a while. So stop panicking. Take a Coffee Break. Touch Grass, maybe.
+    It's completely normal for this command to take a while. So stop panicking. Take a coffee break. Touch grass, maybe.
+
+    *Note*: You might encounter an error while running this command, similar to the following:
+
+    ```bash
+    error: Server does not allow request for unadvertised object 935a51f3c66ece357ce0d18f3aa3627a13cef7d5
+    fatal: Fetched in submodule path 'dejagnu', but it did not contain 935a51f3c66ece357ce0d18f3aa3627a13cef7d5. Direct fetching of that commit failed.
+    ```
+
+    This happens because the repository tries to fetch a specific commit from the `dejagnu` submodule that no longer exists in the upstream repository. As a result, Git fails to complete the submodule update process.
+
+    `dejagnu` is a testing framework used primarily for running regression tests on compiler toolchains. You will probably not need it unless you plan to run `make check` to validate the toolchain with test cases.
+
+    So it's safe to remove it and proceed:
+
+    ```bash
+    
+    git submodule deinit -f dejagnu
+    git rm -f dejagnu
+    rm -rf .git/modules/dejagnu
+    rm -rf dejagnu
+    git commit -m "Removed dejagnu"
+    ```
+
+    Then re-run the submodule initialization:
+
+    ```bash
+    git submodule update --init --recursive
+    ```
+
+    This will skip the broken submodule and allow the remaining components to be fetched and prepared correctly.
 
 3.  **Configure and Build:**
 
