@@ -202,7 +202,7 @@ This section describes how to compile and execute RISC-V code using this reposit
 
 First, clone this starter repo.
 
-```
+```bash
 cd # Ensure you are in your home directory
 git clone https://github.com/syedtaha22/riscv-env-setup.git
 cd riscv-env-setup
