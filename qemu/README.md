@@ -64,36 +64,55 @@ The code uses memory fence instructions (`fence w,w` and `fence w,r`) to ensure 
 
 -----
 
-## 3. Installing QEMU
+## 3. Building/Installing QEMU
 
-QEMU must be installed with user-mode static binaries for RISC-V emulation.
+### 3.1 Build Environment Setup
 
-### Ubuntu/Debian
+Install the necessary development libraries and build tools:
 
 ```bash
 sudo apt update
-sudo apt install qemu-user-static
+sudo apt install build-essential python3 ninja-build git libglib2.0-dev libpixman-1-dev
 ```
 
-### Fedora/Red Hat
+### 3.2 Compilation and Installation
+
+Download the QEMU source code and configure the build for RISC-V 32-bit user-mode emulation with TCG plugin support.
 
 ```bash
-sudo dnf install qemu-user-static
+cd ~
+git clone https://gitlab.com/qemu-project/qemu.git
+cd qemu
+mkdir build && cd build
+
+../configure --enable-plugins --enable-linux-user --target-list=riscv32-linux-user
+
+make -j$(nproc)
+sudo make install
 ```
 
-### Arch Linux
+### 3.3 Plugin Deployment
+
+Compile the instrumentation plugins and migrate the shared objects to the system library path required by the execution environment.
 
 ```bash
-sudo pacman -S qemu-user-static
+# Setup system plugin directory
+sudo mkdir -p /usr/local/lib/qemu/
+
+# Deploy TCG and Contribution plugins
+sudo cp tests/tcg/plugins/*.so /usr/local/lib/qemu/
+sudo cp contrib/plugins/*.so /usr/local/lib/qemu/
 ```
 
-### Verify Installation
+### 3.4 Verification
 
-```bash
-which qemu-riscv32-static
-```
+Validate the installation by confirming the binary location, plugin capability, and specific library availability.
 
-If installed correctly, it will show the path to the executable.
+| Component           | Command                                  | Expected Output                             |
+| :-------------------| :----------------------------------------| :-------------------------------------------|
+| **Binary Path**     | `which qemu-riscv32`                     | `/usr/local/bin/qemu-riscv32`               |
+| **Plugin Support**  | `qemu-riscv32 -help \| grep plugin`      | Usage strings for `-plugin` and `-d plugin` |
+| **Library Path**    | `ls /usr/local/lib/qemu/libhotblocks.so` | `/usr/local/lib/qemu/libhotblocks.so`       |
 
 -----
 

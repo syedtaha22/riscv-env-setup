@@ -49,7 +49,7 @@ def start_riscv_process():
     """Launch the RISC-V executable using QEMU. """
     print("[Python] Starting RISC-V process...")
     process = subprocess.Popen(
-        ["qemu-riscv32-static", "-cpu", "rv32,v=true", "./build/exe/rvshm.exe"],
+        ["qemu-riscv32", "-cpu", "rv32,v=true", "./build/exe/rvshm.exe"],
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE
     )
